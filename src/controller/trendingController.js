@@ -1,15 +1,7 @@
 const axios = require('axios');
 
 const fetchTrendingCoins = async () => {
-  const response = await axios.get('https://api.coingecko.com/api/v3/coins/markets', {
-    params: {
-      vs_currency: 'usd',
-      order: 'market_cap_desc',
-      per_page: 10,
-      page: 1,
-      sparkline: false,
-    },
-  });
+  const response = await axios.get('https://api.coingecko.com/api/v3/search/trending');
   return response.data;
 };
 
@@ -18,11 +10,16 @@ exports.getTrendingCoins = async (req, res) => {
     console.log("getTrendingCoins");
     const trendingCoinsData = await fetchTrendingCoins();
 
-    // Extract the required details (id, name, price) for each coin
-    const trendingCoins = trendingCoinsData.map(coin => ({
-      id: coin.id,
-      name: coin.name,
-      price: coin.current_price,
+    // Extract the required details for each trending coin
+    const trendingCoins = trendingCoinsData.coins.slice(0, 12).map(coin => ({
+      id: coin.item.id,
+      coin_id: coin.item.coin_id,
+      name: coin.item.name,
+      symbol: coin.item.symbol,
+      market_cap_rank: coin.item.market_cap_rank,
+      large: coin.item.large,
+      price: coin.item.data.price,
+      sparkline: coin.item.data.sparkline,
     }));
 
     res.status(200).json({ success: true, data: trendingCoins });
