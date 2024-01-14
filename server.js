@@ -7,6 +7,8 @@ const app = express();
 const PORT = 5000;
 const server = http.createServer(app);
 const io = new Server(server);
+require("./src/db/connection");
+require('dotenv').config();
 
 
 app.use(cors());
@@ -14,14 +16,14 @@ app.use(express.json());
 app.use('/', router);
 
 
-io.on("connect",(socket)=>
-{
-  console.log("Connected");
+// io.on("connect",(socket)=>
+// {
+//   console.log("Connected");
 
-  socket.on("disconnect",()=>{
-    console.log("Disconnected");
-  });
-});
+//   socket.on("disconnect",()=>{
+//     console.log("Disconnected");
+//   });
+// });
 
 
 

@@ -9,8 +9,6 @@ exports.getTrendingCoins = async (req, res) => {
   try {
     console.log("getTrendingCoins");
     const trendingCoinsData = await fetchTrendingCoins();
-
-    // Extract the required details for each trending coin
     const trendingCoins = trendingCoinsData.coins.slice(0, 12).map(coin => ({
       id: coin.item.id,
       coin_id: coin.item.coin_id,
