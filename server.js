@@ -1,32 +1,24 @@
+// server.js
 const express = require('express');
 const router = require('./src/Routes/router');
-const cors = require("cors");
-const {Server} = require('socket.io');
+const cors = require('cors');
+const debug = require('debug')('app:server');
 const http = require('http');
-const app = express();
+const { initSocket } = require('./websocket/webSocket');
 const PORT = 5000;
-const server = http.createServer(app);
-const io = new Server(server);
-require("./src/db/connection");
+
+require('./src/db/connection');
 require('dotenv').config();
 
+const app = express();
+const server = http.createServer(app);
+
+const io = initSocket(server);
 
 app.use(cors());
 app.use(express.json());
 app.use('/', router);
 
-
-// io.on("connect",(socket)=>
-// {
-//   console.log("Connected");
-
-//   socket.on("disconnect",()=>{
-//     console.log("Disconnected");
-//   });
-// });
-
-
-
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+server.listen(PORT, () => {
+  debug(`Server is running on http://localhost:${PORT}`);
 });
