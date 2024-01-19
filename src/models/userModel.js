@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+// const { type } = require("os");
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -10,6 +11,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  currency:{
+    type: String,
+    required: true,
+  }
 });
 
 const Users = mongoose.model("User", userSchema);

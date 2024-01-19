@@ -2,12 +2,10 @@ const express = require('express');
 const trendingController = require('../controller/trendingController');
 const searchController = require('../controller/searchController');
 const LoginController = require('../controller/loginController');
-
 const Coincontroller = require('../controller/coinController');
-
 const SignupController = require('../controller/signUpController');
 const FaveCoinController = require('../controller/favCoinsController');
-
+const ConverterController = require('../controller/converterController');
 const router = new express.Router();
 
 // Routes to fetch the trending coins
@@ -34,5 +32,7 @@ router.get('/favorites', FaveCoinController.getFavoriteCoins);
 // router for deleting a coin from the user's favorites
 router.post('/favorites/remove', FaveCoinController.removeFromFavorites);
 
+// Router for converting the coin price to desired currency.
+router.post('/convert', ConverterController.converter);
 
 module.exports = router;
