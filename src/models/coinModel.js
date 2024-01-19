@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 
 const coinSchema = new mongoose.Schema({
@@ -7,6 +6,10 @@ const coinSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  // coin_id: {
+  //   type: String,
+  //   required: true,
+  // },
   name: {
     type: String,
     required: true,
@@ -15,11 +18,18 @@ const coinSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  large: {
+    type: String, 
+    required: true,
+  },
   price: {
     type: String, 
     required: true,
   },
- 
+  sparkline: {
+    type: String, 
+    required: true,
+  },
 });
 
 const Coin = mongoose.model('Coin', coinSchema);

@@ -1,20 +1,21 @@
-// controllers/coinController.js
-const coinService = require('../repositories/coinRepositary');
+const coinRepository = require('../repositories/coinDataRepositary');
 
-exports.storeCoinDetails = async (req, res) => {
+exports.addCoin = async (req, res) => {
+  const coinDetails = req.body;
+  console.log('Received Coin Details:', coinDetails);
+
   try {
-    const { id, name, symbol, price } = req.body;
-    console.log(req.body);
+    const result = await coinRepository.addOrUpdateCoin(coinDetails);
 
-    const result = await coinService.storeCoinDetails({ id, name, symbol, price });
-
-    if (!result.success) {
-      return res.status(400).json(result);
+    if (result.success) {
+      console.log(result.message, result.data);
+      res.status(201).json(result);
+    } else {
+      console.error(result.message, result.error);
+      res.status(400).json(result);
     }
-
-    res.status(201).json(result);
   } catch (error) {
-    console.error('Error in coinController:', error);
+    console.error('Error during coin addition/update:', error);
     res.status(500).json({ success: false, error: 'Internal Server Error' });
   }
 };
